@@ -1,73 +1,73 @@
-import React, { useEffect, useRef } from "react";
-import Chart from "chart.js/auto";
+import React from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+} from "chart.js";
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const Charts = () => {
-  const chartContainerRef = useRef(null);
+  const CHART_COLORS = {
+    red: "#f26c6d",
+  };
 
-  const chartData = {
-    labels: ["Label 1", "Label 2", "Label 3"],
+  const data = {
+    labels: ["May1", "May 8", "May 9", "May 10", "May 11", "May 12"],
     datasets: [
       {
-        label: "My Dataset",
-        data: [10, 20, 15],
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
+        data: [3, 4, 2, 2, 11, 12, 14],
+        borderColor: CHART_COLORS.red,
         fill: false,
+        cubicInterpolationMode: "monotone",
+        tension: 0.4,
       },
     ],
   };
-  
-  useEffect(() => {
-    
 
-    const chartOptions = {
-      scales: {
-        x: {
-          type: "linear",
-          position: "bottom",
-        },
-        y: {
-          type: "linear",
-          position: "left",
+  const config = {
+    type: "line",
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Chart.js Line Chart - Cubic interpolation mode",
         },
       },
-    };
-
-    const chartContainer = chartContainerRef.current;
-    console.log("Chart Container:", chartContainer);
-
-    if (chartContainer) {
-      // Check if the chart has already been initialized
-      if (chartContainer.hasAttribute("data-chart-initialized")) {
-        return;
-      }
-
-      const myChart = new Chart(chartContainer, {
-        type: "line",
-        data: chartData,
-        options: chartOptions,
-      });
-
-      // Mark the container as initialized
-      chartContainer.setAttribute("data-chart-initialized", "true");
-
-      // Cleanup function (optional)
-      return () => {
-        myChart.destroy();
-      };
-    }
-  }, []);
+      interaction: {
+        intersect: false,
+      },
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true,
+          },
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: "Value",
+          },
+          suggestedMin: -10,
+          suggestedMax: 10,
+        },
+      },
+    },
+  };
 
   return (
     <div
-      className="h-full"
-      id="myChartContainer"
-      ref={chartContainerRef}
-      style={{
-        width: "100%",
-        height: "400px", // Set an appropriate height
-      }}
-    ></div>
+      className="flex items-center p-4 bg-white rounded-lg shadow-md mr-8"
+      style={{ width: "100%", height: "100%" }}
+    >
+      <Line {...config} />
+    </div>
   );
 };
 
