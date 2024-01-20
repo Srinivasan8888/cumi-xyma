@@ -2,7 +2,7 @@ import React from "react";
 
 const RTables = () => {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto mt-5">
       <div className="min-h-[460px]">
         <div className="shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
